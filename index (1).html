@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="Pátio Gestão - gerenciamento de patrimônios, reservas, movimentações e manutenção">
+<title>Pátio Gestão</title>
+<style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#172033;background:#f5f7fb}
+*{box-sizing:border-box}body{margin:0}button,input,select,textarea{font:inherit}button,.button{cursor:pointer}
+.app{display:flex;min-height:100vh}.sidebar{width:250px;background:#101827;color:#dbe3f0;padding:18px 12px;display:flex;flex-direction:column;gap:6px;transition:.2s}.sidebar.collapsed{width:74px}.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;padding:12px 10px;margin-bottom:16px}.brand svg{color:#6ea8fe}.brand.large{font-size:24px;justify-content:center}.nav{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:9px;color:#aebbd0;text-decoration:none}.nav:hover,.nav.active{background:#1d2a3d;color:#fff}.logout{border:0;background:none;margin-top:auto;text-align:left}.main{flex:1;min-width:0}header{height:66px;background:#fff;border-bottom:1px solid #e5e9f0;display:flex;align-items:center;gap:14px;padding:0 24px;position:sticky;top:0;z-index:5}.iconbtn{border:0;background:transparent;padding:8px;border-radius:8px;color:#536177;display:flex;align-items:center}.iconbtn:hover{background:#f0f3f8}.content{padding:26px;max-width:1600px;margin:auto}.page-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;gap:16px}.page-title h1{margin:0;font-size:27px}.grid{display:grid;gap:18px}.grid.cards{grid-template-columns:repeat(6,minmax(0,1fr));margin-bottom:20px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr));margin-bottom:20px}.card,.panel{background:#fff;border:1px solid #e6eaf0;border-radius:13px;box-shadow:0 3px 12px #1720330a}.card{padding:18px;display:flex;gap:14px;align-items:center}.card-icon{width:40px;height:40px;border-radius:10px;background:#eef4ff;display:grid;place-items:center;color:#3b6dcc}.big{font-size:25px;display:block;margin-top:2px}.panel{padding:20px}.panel h2{font-size:17px;margin:0 0 16px}.highlight{border-color:#c9dcff;background:#f8fbff}.hero{display:flex;justify-content:space-between;align-items:center;background:#fff;padding:24px;border:1px solid #e6eaf0;border-radius:13px;margin-bottom:18px}.hero h2{margin:0 0 5px}.muted{color:#68758a}.filters{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}.search{display:flex;align-items:center;background:#fff;border:1px solid #dfe4ec;border-radius:9px;padding:0 11px;flex:1;min-width:260px}.search input{border:0;outline:0;width:100%;padding:10px}.filters select,.filters button{height:42px}select,input,textarea{border:1px solid #d9e0ea;border-radius:8px;padding:10px 11px;background:#fff;outline:none}input:focus,select:focus,textarea:focus{border-color:#7195d5;box-shadow:0 0 0 3px #7195d520}textarea{min-height:100px;resize:vertical}.primary,.secondary,.danger,.ghost{border:0;border-radius:8px;padding:10px 14px;display:inline-flex;align-items:center;justify-content:center;gap:7px;text-decoration:none}.primary{background:#1f64d6;color:#fff}.primary:hover{background:#1854b8}.secondary{background:#edf1f6;color:#2c3a50}.danger{background:#feecec;color:#b42318}.ghost{background:transparent;color:#58667b}.small{padding:6px 9px;font-size:13px}.badge{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:700;background:#edf1f6;color:#566277}.green{background:#e9f8ef;color:#18794e}.blue{background:#e9f1ff;color:#2355a4}.amber{background:#fff4dc;color:#986b00}.violet{background:#f0eaff;color:#6941c6}.red{background:#feecec;color:#b42318}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid #edf0f4;white-space:nowrap;font-size:14px}th{color:#6b778a;font-size:12px;text-transform:uppercase;letter-spacing:.03em}.link{color:#1e5bc6;text-decoration:none;font-weight:700}.link:hover{text-decoration:underline}.empty{text-align:center;padding:30px;color:#7c8798}.info{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.info div{display:flex;flex-direction:column;gap:4px}.form{padding:22px}.form fieldset{border:0;border-top:1px solid #e6eaf0;padding:20px 0 5px;margin:0}.form fieldset:first-child{border-top:0;padding-top:0}.form legend{font-size:14px;font-weight:800;letter-spacing:.05em;color:#43516a;margin-bottom:14px}.form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.form label,.stack label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:#49566c}.form .full{grid-column:1/-1}.actions{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}.loading{padding:60px;text-align:center}.error{background:#fff0f0;border:1px solid #ffc9c9;color:#a51d1d;padding:11px;border-radius:8px}.toolbar{margin-bottom:15px}.notification{display:flex;justify-content:space-between;gap:20px;background:#fff;border:1px solid #e3e8f0;border-radius:11px;padding:16px}.notification.unread{border-left:4px solid #2d6cdf}.notification p{margin:7px 0;color:#536177}.modal-backdrop{position:fixed;inset:0;background:#0c142699;display:grid;place-items:center;padding:20px;z-index:20}.modal{background:#fff;border-radius:14px;width:min(600px,100%);max-height:90vh;overflow:auto;padding:20px;box-shadow:0 20px 60px #0004}.modal-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.modal-title h2{margin:0;font-size:19px}.stack{display:flex;flex-direction:column;gap:13px}.profile{text-align:center;padding:40px}.login{min-height:100vh;display:grid;place-items:center;background:linear-gradient(135deg,#eef4ff,#f8fafc);padding:20px}.login-card{width:min(420px,100%);background:#fff;padding:34px;border-radius:18px;box-shadow:0 18px 55px #24314b18;text-align:center}.login-card form{text-align:left;margin:25px 0}.login-card small{color:#738095}
+@media(max-width:1100px){.grid.cards{grid-template-columns:repeat(3,minmax(0,1fr))}.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.sidebar{width:74px}.sidebar .brand{justify-content:center}.sidebar .brand{font-size:0}.sidebar .nav{justify-content:center}.main header{padding:0 14px}.content{padding:16px}.grid.cards,.grid.two{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.info{grid-template-columns:1fr}.page-title{align-items:flex-start;flex-direction:column}.page-title .button{width:100%}.notification{flex-direction:column}}
+.ico{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;font-style:normal;font-weight:700;line-height:1}.nav .ico{flex:0 0 18px}.brand .ico{color:#6ea8fe}.profile{text-align:center}.profile .ico{width:56px;height:56px;font-size:42px;margin:auto}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/react-router-dom@6.28.0/dist/umd/react-router-dom.development.js"></script>
+<script>
+/* Front-end completo convertido de frontend/src para um único index.html. */
+const { useEffect, useMemo, useState } = React;
+const { Routes, Route, Link, NavLink, useNavigate, useLocation, useParams, HashRouter } = ReactRouterDOM;
+const API = localStorage.getItem("api_url") || "http://localhost:4000/api";
+async function api(path, options = {}) { const token = localStorage.getItem("token"); const headers = new Headers(options.headers || {}); headers.set("Content-Type", "application/json"); if (token)
+    headers.set("Authorization", "Bearer " + token); const r = await fetch(API + path, { ...options, headers }); const data = await r.json().catch(() => ({})); if (!r.ok)
+    throw new Error(data.error || data.message || "Erro na API"); return data; }
+const post = (p, b) => api(p, { method: "POST", body: JSON.stringify(b) });
+const put = (p, b) => api(p, { method: "PUT", body: JSON.stringify(b) });
+const del = (p, b) => api(p, { method: "DELETE", body: b ? JSON.stringify(b) : undefined });
+const Icon = ({ children }) => React.createElement("span", { className: "ico" }, children);
+const Bell = () => React.createElement(Icon, null, "\u2662"), Box = () => React.createElement(Icon, null, "\u25A3"), CalendarDays = () => React.createElement(Icon, null, "\u25A6"), ClipboardList = () => React.createElement(Icon, null, "\u2637"), HistoryIcon = () => React.createElement(Icon, null, "\u21B6"), Home = () => React.createElement(Icon, null, "\u2302"), LogOut = () => React.createElement(Icon, null, "\u21AA"), Menu = () => React.createElement(Icon, null, "\u2630"), MoveRight = () => React.createElement(Icon, null, "\u2194"), Settings = () => React.createElement(Icon, null, "\u2699"), Truck = () => React.createElement(Icon, null, "\u25B0"), UserCircle = () => React.createElement(Icon, null, "\u25C9"), Wrench = () => React.createElement(Icon, null, "\u2692"), X = () => React.createElement(Icon, null, "\u00D7"), Plus = () => React.createElement(Icon, null, "\uFF0B"), Search = () => React.createElement(Icon, null, "\u2315"), RefreshCw = () => React.createElement(Icon, null, "\u21BB"), AlertTriangle = () => React.createElement(Icon, null, "!"), CheckCircle2 = () => React.createElement(Icon, null, "\u2713");
+const statusLabel = { DISPONIVEL: "Disponível", RESERVADA: "Reservada", MANUTENCAO: "Manutenção", EM_TRANSITO: "Em trânsito", INDISPONIVEL: "Indisponível" };
+const statusClass = { DISPONIVEL: "badge green", RESERVADA: "badge blue", MANUTENCAO: "badge amber", EM_TRANSITO: "badge violet", INDISPONIVEL: "badge red" };
+function Login({ onLogin }) {
+    const [email, setEmail] = useState("logistica@teste.com"), [senha, setSenha] = useState("Teste@123"), [err, setErr] = useState("");
+    const submit = async (e) => { e.preventDefault(); try {
+        const x = await post("/auth/login", { email, senha });
+        onLogin(x.user, x.token);
+    }
+    catch (e) {
+        setErr(e.message);
+    } };
+    return React.createElement("div", { className: "login" },
+        React.createElement("div", { className: "login-card" },
+            React.createElement("div", { className: "brand large" },
+                React.createElement(Box, null),
+                " P\u00E1tio Gest\u00E3o"),
+            React.createElement("p", { className: "muted" }, "Controle de patrim\u00F4nios, opera\u00E7\u00F5es e reservas"),
+            React.createElement("form", { onSubmit: submit, className: "stack" },
+                React.createElement("label", null,
+                    "E-mail",
+                    React.createElement("input", { value: email, onChange: e => setEmail(e.target.value), type: "email" })),
+                React.createElement("label", null,
+                    "Senha",
+                    React.createElement("input", { value: senha, onChange: e => setSenha(e.target.value), type: "password" })),
+                err && React.createElement("div", { className: "error" }, err),
+                React.createElement("button", { className: "primary" }, "Entrar")),
+            React.createElement("small", null, "Teste: logistica@teste.com / Teste@123")));
+}
+function App() {
+    const [user, setUser] = useState(null);
+    useEffect(() => { const raw = localStorage.getItem("user"), token = localStorage.getItem("token"); if (raw && token)
+        setUser(JSON.parse(raw)); }, []);
+    const login = (u, t) => { localStorage.setItem("user", JSON.stringify(u)); localStorage.setItem("token", t); setUser(u); };
+    const logout = () => { localStorage.clear(); setUser(null); };
+    if (!user)
+        return React.createElement(Login, { onLogin: login });
+    return React.createElement(Shell, { user: user, logout: logout });
+}
+function Shell({ user, logout }) {
+    const [open, setOpen] = useState(true), loc = useLocation();
+    const nav = [["/", "Dashboard", Home, ["LOGISTICA", "COMERCIAL", "MANUTENCAO"]], ["/patrimonios", "Patrimônios", Box, ["LOGISTICA", "COMERCIAL", "MANUTENCAO"]], ["/reservas", "Reservas", CalendarDays, ["LOGISTICA", "COMERCIAL"]], ["/movimentacoes", "Movimentações", MoveRight, ["LOGISTICA"]], ["/manutencao", "Manutenção", Wrench, ["MANUTENCAO"]], ["/historico", "Histórico", HistoryIcon, ["LOGISTICA", "COMERCIAL", "MANUTENCAO"]], ["/notificacoes", "Notificações", Bell, ["LOGISTICA", "COMERCIAL", "MANUTENCAO"]], ["/perfil", "Perfil", UserCircle, ["LOGISTICA", "COMERCIAL", "MANUTENCAO"]]];
+    return React.createElement("div", { className: "app" },
+        React.createElement("aside", { className: open ? "sidebar" : "sidebar collapsed" },
+            React.createElement("div", { className: "brand" },
+                React.createElement(Box, null),
+                " ",
+                open && "Pátio Gestão"),
+            nav.filter(n => n[3].includes(user.role)).map(([to, label, Icon]) => React.createElement(NavLink, { key: to, to: to, className: ({ isActive }) => isActive ? "nav active" : "nav" },
+                React.createElement(Icon, { size: 18 }),
+                open && label)),
+            React.createElement("button", { className: "nav logout", onClick: logout },
+                React.createElement(LogOut, { size: 18 }),
+                open && "Sair")),
+        React.createElement("main", { className: "main" },
+            React.createElement("header", null,
+                React.createElement("button", { className: "iconbtn", onClick: () => setOpen(!open) },
+                    React.createElement(Menu, null)),
+                React.createElement("div", null,
+                    React.createElement("strong", null, user.nome),
+                    React.createElement("span", { className: "muted" },
+                        " \u00B7 ",
+                        user.role)),
+                React.createElement(Link, { to: "/notificacoes", className: "iconbtn" },
+                    React.createElement(Bell, null))),
+            React.createElement("div", { className: "content" },
+                React.createElement(Routes, null,
+                    React.createElement(Route, { path: "/", element: React.createElement(Dashboard, { user: user }) }),
+                    React.createElement(Route, { path: "/patrimonios", element: React.createElement(Patrimonios, { user: user }) }),
+                    React.createElement(Route, { path: "/patrimonios/novo", element: React.createElement(PatrimonioForm, { user: user }) }),
+                    React.createElement(Route, { path: "/patrimonios/:id/editar", element: React.createElement(PatrimonioForm, { user: user }) }),
+                    React.createElement(Route, { path: "/patrimonios/:id", element: React.createElement(PatrimonioDetail, { user: user }) }),
+                    React.createElement(Route, { path: "/reservas", element: React.createElement(Reservas, { user: user }) }),
+                    React.createElement(Route, { path: "/movimentacoes", element: React.createElement(Movimentacoes, null) }),
+                    React.createElement(Route, { path: "/manutencao", element: React.createElement(Manutencao, null) }),
+                    React.createElement(Route, { path: "/historico", element: React.createElement(Historico, null) }),
+                    React.createElement(Route, { path: "/notificacoes", element: React.createElement(Notificacoes, null) }),
+                    React.createElement(Route, { path: "/perfil", element: React.createElement(Perfil, { user: user }) }),
+                    React.createElement(Route, { path: "*", element: React.createElement(Dashboard, { user: user }) })))));
+}
+function Page({ title, children, action }) { return React.createElement("div", { className: "page" },
+    React.createElement("div", { className: "page-title" },
+        React.createElement("div", null,
+            React.createElement("h1", null, title)),
+        action),
+    children); }
+function Badge({ status }) { return React.createElement("span", { className: statusClass[status] || "badge" }, statusLabel[status] || status); }
+function Card({ title, value, icon: Icon }) { return React.createElement("div", { className: "card" },
+    React.createElement("div", { className: "card-icon" },
+        React.createElement(Icon, { size: 20 })),
+    React.createElement("div", null,
+        React.createElement("div", { className: "muted" }, title),
+        React.createElement("strong", { className: "big" }, value))); }
+function Dashboard({ user }) {
+    const [d, setD] = useState(null);
+    useEffect(() => { api("/dashboard").then(setD); }, []);
+    if (!d)
+        return React.createElement(Page, { title: "Dashboard" },
+            React.createElement("div", { className: "loading" }, "Carregando..."));
+    const c = d.counts || {};
+    return React.createElement(Page, { title: `Olá, ${user.nome.split(" ")[0]}` },
+        React.createElement("div", { className: "grid cards" }, [["Total", d.total, Box], ["Disponíveis", c.DISPONIVEL || 0, CheckCircle2], ["Reservados", c.RESERVADA || 0, CalendarDays], ["Manutenção", c.MANUTENCAO || 0, Wrench], ["Em trânsito", c.EM_TRANSITO || 0, Truck], ["Indisponíveis", c.INDISPONIVEL || 0, AlertTriangle]].map(([a, b, I]) => React.createElement(Card, { key: a, title: a, value: b, icon: I }))),
+        React.createElement("div", { className: "grid two" },
+            React.createElement("section", { className: "panel" },
+                React.createElement("h2", null, "Pr\u00F3ximas reservas / chegadas"),
+                React.createElement(Table, { headers: ["Patrimônio", "Responsável", "Previsão", "Status"], rows: d.reservas.map((r) => [React.createElement(Link, { className: "link", to: `/patrimonios/${r.patrimonio.id}` }, r.patrimonio.numeroPatrimonio), r.responsavel.nome, r.previsaoChegada ? new Date(r.previsaoChegada).toLocaleDateString("pt-BR") : "—", React.createElement(Badge, { status: r.status })]) })),
+            React.createElement("section", { className: "panel" },
+                React.createElement("h2", null, "\u00DAltimas movimenta\u00E7\u00F5es"),
+                React.createElement(Table, { headers: ["Patrimônio", "Tipo", "Destino", "Data"], rows: d.movimentos.map((m) => [m.patrimonio.numeroPatrimonio, m.tipo.replaceAll("_", " "), m.destino || "—", new Date(m.dataHora).toLocaleString("pt-BR")]) }))));
+}
+function Table({ headers, rows }) { return React.createElement("div", { className: "table-wrap" },
+    React.createElement("table", null,
+        React.createElement("thead", null,
+            React.createElement("tr", null, headers.map(h => React.createElement("th", { key: h }, h)))),
+        React.createElement("tbody", null, rows.length ? rows.map((r, i) => React.createElement("tr", { key: i }, r.map((x, j) => React.createElement("td", { key: j }, x)))) : React.createElement("tr", null,
+            React.createElement("td", { colSpan: headers.length, className: "empty" }, "Nenhum registro encontrado."))))); }
+function Patrimonios({ user }) {
+    const [items, setItems] = useState([]), [q, setQ] = useState(""), [status, setStatus] = useState(""), [loading, setLoading] = useState(false);
+    const load = () => { setLoading(true); api(`/patrimonios?q=${encodeURIComponent(q)}${status ? `&status=${status}` : ""}`).then(setItems).finally(() => setLoading(false)); };
+    useEffect(load, []);
+    return React.createElement(Page, { title: "Patrim\u00F4nios", action: user.role === "LOGISTICA" && React.createElement(Link, { className: "primary button", to: "/patrimonios/novo" },
+            React.createElement(Plus, { size: 17 }),
+            " Novo patrim\u00F4nio") },
+        React.createElement("div", { className: "filters" },
+            React.createElement("div", { className: "search" },
+                React.createElement(Search, { size: 17 }),
+                React.createElement("input", { placeholder: "Patrim\u00F4nio, chassi, marca, modelo...", value: q, onChange: e => setQ(e.target.value), onKeyDown: e => e.key === "Enter" && load() })),
+            React.createElement("select", { value: status, onChange: e => { setStatus(e.target.value); setTimeout(load, 0); } },
+                React.createElement("option", { value: "" }, "Todos os status"),
+                Object.keys(statusLabel).map(s => React.createElement("option", { key: s }, s))),
+            React.createElement("button", { className: "secondary", onClick: load },
+                React.createElement(RefreshCw, { size: 16 }),
+                loading ? "..." : "Atualizar")),
+        React.createElement("section", { className: "panel" },
+            React.createElement(Table, { headers: ["Patrimônio", "Marca / Modelo", "Categoria", "Ano", "Status", "Localização", ""], rows: items.map(p => [React.createElement(Link, { className: "link", to: `/patrimonios/${p.id}` }, p.numeroPatrimonio), `${p.marca} ${p.modelo}`, p.categoria.nome, p.ano, React.createElement(Badge, { status: p.status }), p.localizacao, React.createElement(Link, { className: "button small", to: `/patrimonios/${p.id}` }, "Detalhes")]) })));
+}
+const emptyForm = { numeroPatrimonio: "", chassi: "", marca: "", modelo: "", categoria: "Escavadeira", ano: 2024, tamanho: "MEDIO", comprimento: 1, largura: 1, altura: 1, grauInclinacao: 0, bateria: "", tipoFuncionamento: "DIESEL", tipoOutro: "", especificacoes: "", status: "DISPONIVEL", localizacao: "Pátio principal" };
+function PatrimonioForm({ user }) {
+    const { id } = useParams();
+    const [form, setForm] = useState(emptyForm), [err, setErr] = useState("");
+    useEffect(() => { if (id)
+        api(`/patrimonios/${id}`).then(p => setForm({ ...p, categoria: p.categoria.nome })); }, [id]);
+    if (user.role !== "LOGISTICA")
+        return React.createElement(Page, { title: "Sem permiss\u00E3o" },
+            React.createElement("div", { className: "error" }, "403 Forbidden"));
+    const set = (k, v) => setForm((x) => ({ ...x, [k]: v }));
+    const submit = async (e) => { e.preventDefault(); try {
+        if (id)
+            await put(`/patrimonios/${id}`, form);
+        else
+            await post("/patrimonios", form);
+        window.location.hash = "#/patrimonios";
+    }
+    catch (e) {
+        setErr(e.message);
+    } };
+    return React.createElement(Page, { title: id ? "Editar patrimônio" : "Novo patrimônio" },
+        React.createElement("form", { className: "form panel", onSubmit: submit },
+            React.createElement(Section, { title: "IDENTIFICA\u00C7\u00C3O" },
+                React.createElement(Field, { label: "N\u00FAmero do patrim\u00F4nio", value: form.numeroPatrimonio, set: v => set("numeroPatrimonio", v) }),
+                React.createElement(Field, { label: "Chassi", value: form.chassi, set: v => set("chassi", v) }),
+                React.createElement(Field, { label: "Marca", value: form.marca, set: v => set("marca", v) }),
+                React.createElement(Field, { label: "Modelo", value: form.modelo, set: v => set("modelo", v) }),
+                React.createElement(Field, { label: "Categoria", value: form.categoria, set: v => set("categoria", v) }),
+                React.createElement(Field, { label: "Ano", type: "number", value: form.ano, set: v => set("ano", Number(v)) })),
+            React.createElement(Section, { title: "DIMENS\u00D5ES PARA CARREGAMENTO" },
+                React.createElement(Field, { label: "Comprimento (m)", type: "number", value: form.comprimento, set: v => set("comprimento", Number(v)) }),
+                React.createElement(Field, { label: "Largura (m)", type: "number", value: form.largura, set: v => set("largura", Number(v)) }),
+                React.createElement(Field, { label: "Altura (m)", type: "number", value: form.altura, set: v => set("altura", Number(v)) })),
+            React.createElement(Section, { title: "CARACTER\u00CDSTICAS OPERACIONAIS" },
+                React.createElement(Select, { label: "Tamanho", value: form.tamanho, set: v => set("tamanho", v), options: ["PEQUENO", "MEDIO", "GRANDE"] }),
+                React.createElement(Field, { label: "Grau de inclina\u00E7\u00E3o (\u00B0)", type: "number", value: form.grauInclinacao, set: v => set("grauInclinacao", Number(v)) }),
+                React.createElement(Field, { label: "Bateria", value: form.bateria || "", set: v => set("bateria", v) }),
+                React.createElement(Select, { label: "Tipo de funcionamento", value: form.tipoFuncionamento, set: v => set("tipoFuncionamento", v), options: ["DIESEL", "ELETRICO", "GASOLINA", "HIBRIDO", "OUTRO"] }),
+                form.tipoFuncionamento === "OUTRO" && React.createElement(Field, { label: "Especifica\u00E7\u00E3o do tipo", value: form.tipoOutro || "", set: v => set("tipoOutro", v) })),
+            React.createElement(Section, { title: "SITUA\u00C7\u00D5ES ESPECIAIS" },
+                React.createElement("label", { className: "full" },
+                    "Especifica\u00E7\u00F5es",
+                    React.createElement("textarea", { value: form.especificacoes || "", onChange: e => set("especificacoes", e.target.value) }))),
+            React.createElement(Section, { title: "OPERA\u00C7\u00C3O" },
+                React.createElement(Select, { label: "Status", value: form.status, set: v => set("status", v), options: Object.keys(statusLabel) }),
+                React.createElement(Field, { label: "Localiza\u00E7\u00E3o atual", value: form.localizacao, set: v => set("localizacao", v) })),
+            err && React.createElement("div", { className: "error" }, err),
+            React.createElement("div", { className: "actions" },
+                React.createElement(Link, { className: "secondary button", to: "/patrimonios" }, "Cancelar"),
+                React.createElement("button", { className: "primary" }, "Salvar patrim\u00F4nio"))));
+}
+function Section({ title, children }) { return React.createElement("fieldset", null,
+    React.createElement("legend", null, title),
+    React.createElement("div", { className: "form-grid" }, children)); }
+function Field({ label, value, set, type = "text" }) { return React.createElement("label", null,
+    label,
+    React.createElement("input", { type: type, value: value ?? "", onChange: e => set(e.target.value) })); }
+function Select({ label, value, set, options }) { return React.createElement("label", null,
+    label,
+    React.createElement("select", { value: value, onChange: e => set(e.target.value) }, options.map(o => React.createElement("option", { key: o }, o)))); }
+function PatrimonioDetail({ user }) {
+    const { id } = useParams();
+    const [p, setP] = useState();
+    const [err, setErr] = useState("");
+    const load = () => api(`/patrimonios/${id}`).then(setP);
+    useEffect(load, []);
+    if (!p)
+        return React.createElement(Page, { title: "Patrim\u00F4nio" },
+            React.createElement("div", { className: "loading" }, "Carregando..."));
+    const canEdit = user.role === "LOGISTICA";
+    const remove = async () => { if (confirm("Excluir patrimônio?"))
+        try {
+            await del(`/patrimonios/${id}`);
+            window.location.hash = "#/patrimonios";
+        }
+        catch (e) {
+            setErr(e.message);
+        } };
+    return React.createElement(Page, { title: p.numeroPatrimonio, action: React.createElement("div", { className: "actions" },
+            canEdit && React.createElement(Link, { className: "secondary button", to: `/patrimonios/${id}/editar` }, "Editar"),
+            canEdit && React.createElement("button", { className: "danger button", onClick: remove }, "Excluir")) },
+        React.createElement("div", { className: "hero" },
+            React.createElement("div", null,
+                React.createElement("h2", null,
+                    p.marca,
+                    " ",
+                    p.modelo),
+                React.createElement("div", { className: "muted" },
+                    p.categoria.nome,
+                    " \u00B7 ",
+                    p.ano)),
+            React.createElement(Badge, { status: p.status })),
+        React.createElement("div", { className: "grid two" },
+            React.createElement("section", { className: "panel" },
+                React.createElement("h2", null, "Identifica\u00E7\u00E3o"),
+                React.createElement(Info, { rows: [["Patrimônio", p.numeroPatrimonio], ["Chassi", p.chassi || "—"], ["Marca", p.marca], ["Modelo", p.modelo], ["Categoria", p.categoria.nome], ["Ano", p.ano]] })),
+            React.createElement("section", { className: "panel highlight" },
+                React.createElement("h2", null, "INFORMA\u00C7\u00D5ES PARA CARREGAMENTO"),
+                React.createElement(Info, { rows: [["Comprimento", `${p.comprimento.toFixed(2)} m`], ["Largura", `${p.largura.toFixed(2)} m`], ["Altura", `${p.altura.toFixed(2)} m`], ["Grau de inclinação", `${p.grauInclinacao}°`], ["Tipo de funcionamento", p.tipoFuncionamento === "OUTRO" ? p.tipoOutro : p.tipoFuncionamento], ["Bateria", p.bateria || "—"], ["Especificações especiais", p.especificacoes || "—"]] })),
+            React.createElement("section", { className: "panel" },
+                React.createElement("h2", null, "Caracter\u00EDsticas operacionais"),
+                React.createElement(Info, { rows: [["Tamanho", p.tamanho], ["Status", React.createElement(Badge, { status: p.status })], ["Localização", p.localizacao]] })),
+            React.createElement("section", { className: "panel" },
+                React.createElement("h2", null, "Reservas relacionadas"),
+                React.createElement(Table, { headers: ["Responsável", "Data", "Previsão", "Status"], rows: p.reservas.map((r) => [r.responsavel.nome, new Date(r.dataReserva).toLocaleDateString("pt-BR"), r.previsaoChegada ? new Date(r.previsaoChegada).toLocaleDateString("pt-BR") : "—", r.status]) }))),
+        err && React.createElement("div", { className: "error" }, err),
+        React.createElement("section", { className: "panel" },
+            React.createElement("h2", null, "Hist\u00F3rico recente"),
+            React.createElement(Table, { headers: ["Data", "Usuário", "Ação", "Status", "Observação"], rows: p.historicos.map((h) => [new Date(h.dataHora).toLocaleString("pt-BR"), h.usuario.nome, h.acao, `${h.statusAnterior || "—"} → ${h.novoStatus || "—"}`, h.observacao || "—"]) })));
+}
+function Info({ rows }) { return React.createElement("div", { className: "info" }, rows.map(([a, b]) => React.createElement("div", { key: a },
+    React.createElement("span", { className: "muted" }, a),
+    React.createElement("strong", null, b)))); }
+function Reservas({ user }) {
+    const [items, setItems] = useState([]), [open, setOpen] = useState(false), [pats, setPats] = useState([]), [err, setErr] = useState("");
+    const load = () => api("/reservas").then(setItems);
+    useEffect(() => { load(); api("/patrimonios?status=DISPONIVEL").then(setPats); }, []);
+    const [form, setForm] = useState({ patrimonioId: 0, responsavelId: user.id, previsaoChegada: "", observacoes: "" });
+    const create = async (e) => { e.preventDefault(); try {
+        await post("/reservas", { ...form, patrimonioId: Number(form.patrimonioId), responsavelId: user.role === "LOGISTICA" ? Number(form.responsavelId) : undefined, previsaoChegada: form.previsaoChegada ? new Date(form.previsaoChegada).toISOString() : null });
+        setOpen(false);
+        load();
+    }
+    catch (e) {
+        setErr(e.message);
+    } };
+    const cancel = async (r) => { const motivo = prompt("Motivo do cancelamento:"); if (motivo)
+        try {
+            await del(`/reservas/${r.id}`, { motivo });
+            load();
+        }
+        catch (e) {
+            alert(e.message);
+        } };
+    return React.createElement(Page, { title: "Reservas", action: React.createElement("button", { className: "primary button", onClick: () => setOpen(true) },
+            React.createElement(Plus, { size: 17 }),
+            " Nova reserva") },
+        React.createElement("section", { className: "panel" },
+            React.createElement(Table, { headers: ["Patrimônio", "Marca / Modelo", "Responsável", "Previsão", "Status", "Ações"], rows: items.map(r => [React.createElement(Link, { className: "link", to: `/patrimonios/${r.patrimonio.id}` }, r.patrimonio.numeroPatrimonio), `${r.patrimonio.marca} ${r.patrimonio.modelo}`, r.responsavel.nome, r.previsaoChegada ? new Date(r.previsaoChegada).toLocaleDateString("pt-BR") : "—", React.createElement(Badge, { status: r.status }), (["ATIVA", "IMPACTADA_MANUTENCAO"].includes(r.status) && ((user.role === "LOGISTICA") || r.responsavelId === user.id)) ? React.createElement("button", { className: "danger small button", onClick: () => cancel(r) }, "Cancelar") : "—"]) })),
+        open && React.createElement(Modal, { title: "Nova reserva", close: () => setOpen(false) },
+            React.createElement("form", { className: "stack", onSubmit: create },
+                React.createElement("label", null,
+                    "Patrim\u00F4nio",
+                    React.createElement("select", { required: true, value: form.patrimonioId, onChange: e => setForm({ ...form, patrimonioId: e.target.value }) },
+                        React.createElement("option", { value: 0 }, "Selecione"),
+                        pats.map(p => React.createElement("option", { value: p.id, key: p.id },
+                            p.numeroPatrimonio,
+                            " \u2014 ",
+                            p.marca,
+                            " ",
+                            p.modelo)))),
+                user.role === "LOGISTICA" && React.createElement(UserSelect, { value: form.responsavelId, set: v => setForm({ ...form, responsavelId: v }) }),
+                React.createElement("label", null,
+                    "Data prevista de chegada",
+                    React.createElement("input", { type: "datetime-local", value: form.previsaoChegada, onChange: e => setForm({ ...form, previsaoChegada: e.target.value }) })),
+                React.createElement("label", null,
+                    "Observa\u00E7\u00F5es",
+                    React.createElement("textarea", { value: form.observacoes, onChange: e => setForm({ ...form, observacoes: e.target.value }) })),
+                err && React.createElement("div", { className: "error" }, err),
+                React.createElement("button", { className: "primary" }, "Criar reserva"))));
+}
+function UserSelect({ value, set }) { const [users, setUsers] = useState([]); useEffect(() => { api("/usuarios/responsaveis").then(setUsers); }, []); return React.createElement("label", null,
+    "Reserva em nome de",
+    React.createElement("select", { value: value, onChange: e => set(Number(e.target.value)) },
+        React.createElement("option", { value: 0 }, "Selecione o respons\u00E1vel"),
+        users.map(u => React.createElement("option", { value: u.id, key: u.id },
+            u.nome,
+            " \u2014 ",
+            u.role)))); }
+function Movimentacoes() { const [items, setItems] = useState([]); useEffect(() => { api("/movimentacoes").then(setItems); }, []); return React.createElement(Page, { title: "Movimenta\u00E7\u00F5es" },
+    React.createElement("section", { className: "panel" },
+        React.createElement(Table, { headers: ["Patrimônio", "Tipo", "Origem", "Destino", "Usuário", "Data / hora", "Observação"], rows: items.map(m => [m.patrimonio.numeroPatrimonio, m.tipo.replaceAll("_", " "), m.origem || "—", m.destino || "—", m.usuario.nome, new Date(m.dataHora).toLocaleString("pt-BR"), m.observacao || "—"]) }))); }
+function Manutencao() {
+    const [items, setItems] = useState([]), [pats, setPats] = useState([]), [sel, setSel] = useState(null), [err, setErr] = useState("");
+    const load = () => { api("/manutencoes").then(setItems); api("/patrimonios").then(setPats); };
+    useEffect(load, []);
+    const start = async (p) => { try {
+        await post(`/patrimonios/${p.id}/manutencao`, { motivo: "Manutenção operacional", modo: "NORMAL" });
+        load();
+    }
+    catch (e) {
+        if (e.message.includes("RESERVA_CONFLITO"))
+            setSel(p);
+        else
+            setErr(e.message);
+    } };
+    const conflict = async (mode) => { try {
+        if (mode === "SUB") {
+            const r = await api(`/patrimonios/${sel.id}/substitutos`);
+            const x = r[0];
+            if (!x)
+                throw new Error("Não foram encontradas máquinas compatíveis disponíveis para substituição.");
+            if (confirm(`Confirmar substituição?\\nOriginal: ${sel.numeroPatrimonio}\\nSubstituta: ${x.numeroPatrimonio}\\nResponsável: reserva ativa\\nMotivo: Máquina original será enviada para manutenção.`))
+                await post(`/reservas/${sel.reservas?.[0]?.id || 0}/substituir`, { substitutoId: x.id, motivo: "Máquina original será enviada para manutenção." });
+        }
+        else {
+            const r = await api("/reservas");
+            const rr = r.find(x => x.patrimonioId === sel.id && x.status === "ATIVA");
+            if (!rr)
+                throw new Error("Reserva ativa não encontrada");
+            await post(`/reservas/${rr.id}/impactar-manutencao`, { motivo: "Máquina original será enviada para manutenção." });
+        }
+        setSel(null);
+        load();
+    }
+    catch (e) {
+        alert(e.message);
+    } };
+    return React.createElement(Page, { title: "Manuten\u00E7\u00E3o" },
+        React.createElement("div", { className: "toolbar" },
+            React.createElement("span", null, "Selecione uma m\u00E1quina para iniciar manuten\u00E7\u00E3o.")),
+        React.createElement("section", { className: "panel" },
+            React.createElement(Table, { headers: ["Patrimônio", "Modelo", "Status", "Localização", "Ação"], rows: pats.map(p => [p.numeroPatrimonio, `${p.marca} ${p.modelo}`, React.createElement(Badge, { status: p.status }), p.localizacao, p.status === "DISPONIVEL" || p.status === "RESERVADA" ? React.createElement("button", { className: "secondary small button", onClick: () => start(p) }, "Enviar para manuten\u00E7\u00E3o") : p.status === "MANUTENCAO" ? React.createElement("button", { className: "primary small button", onClick: async () => { await del(`/patrimonios/${p.id}/manutencao`); load(); } }, "Retirar da manuten\u00E7\u00E3o") : "—"]) })),
+        err && React.createElement("div", { className: "error" }, err),
+        sel && React.createElement(Modal, { title: "\u26A0\uFE0F Reserva ativa", close: () => setSel(null) },
+            React.createElement("p", null, "Esta m\u00E1quina possui uma reserva ativa. Como deseja proceder?"),
+            React.createElement("div", { className: "stack" },
+                React.createElement("button", { className: "primary", onClick: () => conflict("SUB") }, "1 \u2014 TROCAR POR UMA M\u00C1QUINA PARECIDA"),
+                React.createElement("button", { className: "secondary", onClick: () => conflict("IMP") }, "2 \u2014 AVISAR O COMERCIAL E ENVIAR PARA MANUTEN\u00C7\u00C3O"),
+                React.createElement("button", { className: "ghost", onClick: () => setSel(null) }, "CANCELAR"))));
+}
+function Historico() { const [x, setX] = useState([]); useEffect(() => { api("/historico").then(setX); }, []); return React.createElement(Page, { title: "Hist\u00F3rico" },
+    React.createElement("section", { className: "panel" },
+        React.createElement(Table, { headers: ["Data", "Usuário", "Role", "Patrimônio", "Ação", "Status", "Observação"], rows: x.map(h => [new Date(h.dataHora).toLocaleString("pt-BR"), h.usuario.nome, h.role, h.patrimonio?.numeroPatrimonio || "—", h.acao, `${h.statusAnterior || "—"} → ${h.novoStatus || "—"}`, h.observacao || "—"]) }))); }
+function Notificacoes() { const [x, setX] = useState([]); const load = () => api("/notificacoes").then(setX); useEffect(load, []); return React.createElement(Page, { title: "Notifica\u00E7\u00F5es" },
+    React.createElement("div", { className: "stack" }, x.map(n => React.createElement("div", { className: n.lida ? "notification" : "notification unread", key: n.id },
+        React.createElement("div", null,
+            React.createElement("strong", null, n.titulo),
+            React.createElement("p", null, n.mensagem),
+            React.createElement("small", null, new Date(n.dataHora).toLocaleString("pt-BR"))),
+        !n.lida && React.createElement("button", { className: "secondary small button", onClick: async () => { await put(`/notificacoes/${n.id}/lida`, {}); load(); } }, "Marcar como lida"))))); }
+function Perfil({ user }) { return React.createElement(Page, { title: "Perfil" },
+    React.createElement("section", { className: "panel profile" },
+        React.createElement(UserCircle, { size: 56 }),
+        React.createElement("h2", null, user.nome),
+        React.createElement("p", null, user.email),
+        React.createElement(Badge, { status: user.role }))); }
+function Modal({ title, close, children }) { return React.createElement("div", { className: "modal-backdrop" },
+    React.createElement("div", { className: "modal" },
+        React.createElement("div", { className: "modal-title" },
+            React.createElement("h2", null, title),
+            React.createElement("button", { className: "iconbtn", onClick: close },
+                React.createElement(X, null))),
+        children)); }
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(React.createElement(HashRouter, null,
+    React.createElement(App, null)));
+
+</script>
+</body>
+</html>
